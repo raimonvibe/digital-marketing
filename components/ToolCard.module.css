@@ -74,19 +74,21 @@
   padding: var(--s-2) var(--s-3);
 }
 
+/* A button rather than a <summary>, so the defaults have to go. */
 .whySummary {
   display: flex;
   align-items: center;
   gap: var(--s-2);
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
   cursor: pointer;
+  font-family: inherit;
   font-size: var(--t-sm);
   font-weight: 550;
+  text-align: left;
   color: var(--ink-soft);
-  list-style: none;
-}
-
-.whySummary::-webkit-details-marker {
-  display: none;
 }
 
 .info {
@@ -101,6 +103,22 @@
   font-size: var(--t-sm);
   line-height: 1.6;
   color: var(--ink-soft);
+}
+
+/* Folded away from the eye, but still laid out and still in the accessibility
+   tree — display:none or a closed <details> would take it out of the reading
+   order, which is the whole problem this replaces. */
+.whyBody[data-folded] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
 
 .mission {

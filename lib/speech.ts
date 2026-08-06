@@ -275,24 +275,29 @@ function clearHighlight() {
 }
 
 /**
- * Text folded away inside a closed `<details>` — "why this matters" on every
- * tool card — is read out, because textContent does not care about disclosure
- * state, but nothing appears on screen while it plays: the highlight lands on
- * an unpainted element and scrollIntoView has nothing to scroll to. A real
- * screen reader has the opposite problem and skips the passage entirely, since
- * a closed disclosure is kept out of the accessibility tree by design.
- *
- * Opening the disclosure as playback reaches it settles both: the words appear
- * as they are spoken, and the accessibility tree matches what is being said.
- * It stays open afterwards — having heard it, you can read it back.
+ * Fired on a chunk's element just before it is spoken, so a disclosure whose
+ * open state lives in React can unfold itself. It bubbles, so the listener can
+ * sit on the wrapper and catch both the toggle and the body.
+ */
+export const REVEAL_EVENT = 'speech:reveal';
+
+/**
+ * Text folded away out of sight is still read out — textContent does not care
+ * whether you can see it — but nothing appears on screen while it plays: the
+ * highlight lands on something unpainted and scrollIntoView has nothing to
+ * scroll to. Unfolding as playback arrives keeps the page and the voice
+ * together. It stays open afterwards; having heard it, you can read it back.
  */
 function reveal(el: HTMLElement) {
+  /* Native disclosures can simply be opened. */
   let node: Element | null = el.closest('details');
   while (node) {
     const disclosure = node as HTMLDetailsElement;
     if (!disclosure.open) disclosure.open = true;
     node = disclosure.parentElement?.closest('details') ?? null;
   }
+  /* React-owned ones cannot be, so ask them to. */
+  el.dispatchEvent(new CustomEvent(REVEAL_EVENT, { bubbles: true }));
 }
 
 function stopKeepAlive() {
