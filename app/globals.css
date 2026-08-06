@@ -264,6 +264,10 @@ body {
   font-feature-settings: 'kern', 'liga';
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  /* Dutch compounds run long — "influencersamenwerking",
+     "zoekmachineoptimalisatie". Let one break rather than spill out of its
+     card on a narrow column, whatever the device. */
+  overflow-wrap: break-word;
   min-height: 100vh;
   /* Faint laid-paper tone at the top of the page, not a gradient hero. */
   background-image: linear-gradient(

@@ -97,7 +97,7 @@ export function QuizQuestion({
   const label = index === undefined ? null : String(index).padStart(2, '0');
 
   return (
-    <div className={styles.q}>
+    <div className={styles.q} data-unnumbered={label === null || undefined}>
       <div className={styles.qHead}>
         {label && <span className={styles.qNum}>{label}</span>}
         <p className={styles.prompt} data-speech>
