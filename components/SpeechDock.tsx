@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { UI } from '@/content/ui';
 import type { Locale } from '@/lib/types';
 import {
@@ -49,20 +49,47 @@ export default function SpeechDock({ locale }: { locale: Locale }) {
   const [open, setOpen] = useState(false);
   const [canSpeak, setCanSpeak] = useState(false);
   const [hasSelection, setHasSelection] = useState(false);
+  const dockRef = useRef<HTMLDivElement>(null);
+  /* Read synchronously from the click handler — iOS only starts speaking from
+     inside a gesture, so there is no room to wait for a re-render. */
+  const selectionRef = useRef('');
 
   useEffect(() => {
     setCanSpeak(supported());
   }, []);
 
-  /* Enable the selection button only while there is something selected. */
+  /**
+   * Touching a control collapses the selection first — on a phone the moment a
+   * finger lands, on the desktop when the button takes focus. Reading the live
+   * selection in the click handler therefore found nothing, and worse, the
+   * empty selection had already disabled the button, so on iOS the tap often
+   * did not reach it at all.
+   *
+   * So the last real selection is remembered rather than re-read on demand.
+   * Forgetting it is driven by pointerdown outside the dock, which is the user
+   * moving on to something else; a pointerdown on the dock is them reaching
+   * for exactly this button, and must not count.
+   */
   useEffect(() => {
-    const check = () => {
-      const sel = window.getSelection();
-      setHasSelection(!!sel && sel.toString().trim().length > 0);
+    const remember = () => {
+      const text = window.getSelection()?.toString().trim() ?? '';
+      /* An empty selection here is the collapse described above, not a choice. */
+      if (!text) return;
+      selectionRef.current = text;
+      setHasSelection(true);
     };
-    document.addEventListener('selectionchange', check);
-    check();
-    return () => document.removeEventListener('selectionchange', check);
+    const forget = (event: Event) => {
+      if (dockRef.current?.contains(event.target as Node)) return;
+      selectionRef.current = '';
+      setHasSelection(false);
+    };
+    document.addEventListener('selectionchange', remember);
+    document.addEventListener('pointerdown', forget, true);
+    remember();
+    return () => {
+      document.removeEventListener('selectionchange', remember);
+      document.removeEventListener('pointerdown', forget, true);
+    };
   }, []);
 
   useEffect(() => stop, []);
@@ -100,12 +127,16 @@ export default function SpeechDock({ locale }: { locale: Locale }) {
   const mine = owner === ME;
 
   function readSelection() {
-    const text = window.getSelection()?.toString().trim();
+    /* Prefer what is selected right now — a desktop browser that kept the
+       highlight is the most current truth — and fall back to what was there
+       before the control took it away. */
+    const live = window.getSelection()?.toString().trim();
+    const text = live || selectionRef.current;
     if (text) speakText(text, ME, locale);
   }
 
   return (
-    <div className={styles.dock}>
+    <div className={styles.dock} ref={dockRef}>
       {open && (
         <div
           className={styles.panel}
@@ -139,6 +170,10 @@ export default function SpeechDock({ locale }: { locale: Locale }) {
               type="button"
               className="btn"
               onClick={readSelection}
+              /* Keeps the highlight on screen where the platform allows it, so
+                 you can see what is about to be read. Cancelling mousedown does
+                 not cancel the click. */
+              onMouseDown={(e) => e.preventDefault()}
               disabled={!hasSelection}
               title={hasSelection ? undefined : UI.speechSelectionHint[locale]}
             >
