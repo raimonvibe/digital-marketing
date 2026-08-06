@@ -4,6 +4,7 @@ import { UI } from '@/content/ui';
 import { TOOLS, faviconUrl } from '@/lib/tools';
 import type { Locale, ToolLesson } from '@/lib/types';
 import { toggleInList, useDoneLessons, useHydrated } from '@/lib/store';
+import Icon from './Icon';
 import Prose from './Prose';
 import { QuizQuestion } from './Quiz';
 import styles from './ToolCard.module.css';
@@ -62,8 +63,8 @@ export default function ToolCard({
 
         <details className={styles.why}>
           <summary className={styles.whySummary}>
-            <span aria-hidden="true" className={styles.info}>
-              i
+            <span className={styles.info}>
+              <Icon name="info" size={13} />
             </span>
             {UI.whyThisMatters[locale]}
           </summary>
@@ -82,7 +83,7 @@ export default function ToolCard({
             rel="noopener noreferrer"
           >
             {lesson.missionCta}
-            <span aria-hidden="true">↗</span>
+            <Icon name="external" size={14} />
             <span className="visually-hidden">
               ({UI.opensInNewTab[locale]})
             </span>

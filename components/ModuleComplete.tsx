@@ -5,6 +5,7 @@ import { UI } from '@/content/ui';
 import { href } from '@/lib/i18n';
 import type { Locale } from '@/lib/types';
 import { toggleInList, useDoneModules, useHydrated } from '@/lib/store';
+import Icon from './Icon';
 import styles from './ModuleComplete.module.css';
 
 export default function ModuleComplete({
@@ -26,8 +27,8 @@ export default function ModuleComplete({
         {done ? (
           <>
             <p className={styles.badgeLine}>
-              <span className={styles.seal} aria-hidden="true">
-                ✓
+              <span className={styles.seal}>
+                <Icon name="check" size={18} />
               </span>
               <span>
                 <span className="eyebrow eyebrow-accent">
@@ -62,7 +63,7 @@ export default function ModuleComplete({
             <span className="eyebrow">{UI.nextModule[locale]}</span>
             <span className={styles.nextTitle}>
               {String(next.number).padStart(2, '0')} · {next.title}
-              <span aria-hidden="true"> →</span>
+              <span aria-hidden="true"> &rarr;</span>
             </span>
           </Link>
         ) : (

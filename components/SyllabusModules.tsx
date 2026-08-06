@@ -6,6 +6,7 @@ import { href } from '@/lib/i18n';
 import { faviconUrl } from '@/lib/tools';
 import type { Accent, Locale } from '@/lib/types';
 import { useDoneModules, useHydrated } from '@/lib/store';
+import Icon from './Icon';
 import styles from './SyllabusModules.module.css';
 
 export interface SyllabusRow {
@@ -94,12 +95,8 @@ export default function SyllabusModules({
             <Link href={href(locale, `modules/${row.slug}`)} className={styles.link}>
               <span className={styles.num}>
                 {String(row.number).padStart(2, '0')}
-                <span
-                  className={styles.tick}
-                  data-done={isDone || undefined}
-                  aria-hidden="true"
-                >
-                  {isDone ? '✓' : ''}
+                <span className={styles.tick} data-done={isDone || undefined}>
+                  {isDone ? <Icon name="check" size={11} /> : null}
                 </span>
               </span>
 

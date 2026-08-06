@@ -12,6 +12,7 @@ import {
   useDoneModules,
   useHydrated,
 } from '@/lib/store';
+import Icon from './Icon';
 import styles from './ModuleNav.module.css';
 
 export interface NavModule {
@@ -69,8 +70,8 @@ export default function ModuleNav({
                   aria-controls={`nav-${m.slug}`}
                   onClick={() => setOpenSlug(open ? '' : m.slug)}
                 >
-                  <span className={styles.chevron} data-open={open || undefined} aria-hidden="true">
-                    ▸
+                  <span className={styles.chevron} data-open={open || undefined}>
+                    <Icon name="chevron" size={9} />
                   </span>
                   <span className="visually-hidden">{m.title}</span>
                 </button>
@@ -82,12 +83,8 @@ export default function ModuleNav({
                   <span className={styles.title}>{m.title}</span>
                 </Link>
 
-                <span
-                  className={styles.check}
-                  data-done={moduleDone || undefined}
-                  aria-hidden="true"
-                >
-                  {moduleDone ? '✓' : ''}
+                <span className={styles.check} data-done={moduleDone || undefined}>
+                  {moduleDone ? <Icon name="check" size={11} /> : null}
                 </span>
               </div>
 
@@ -107,7 +104,7 @@ export default function ModuleNav({
                               data-done={lessonDone || undefined}
                               aria-hidden="true"
                             >
-                              {lessonDone ? '✓' : '·'}
+                              {lessonDone ? <Icon name="check" size={10} /> : '·'}
                             </span>
                             {l.title}
                           </Link>

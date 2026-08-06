@@ -11,6 +11,7 @@ import {
   supported,
   useSpeech,
 } from '@/lib/speech';
+import Icon from './Icon';
 import styles from './ReadAloud.module.css';
 
 /**
@@ -51,7 +52,7 @@ export default function ReadAloud({
           className="btn"
           onClick={() => speakContainer(targetId, me, locale)}
         >
-          <span aria-hidden="true">▶</span>
+          <Icon name="play" />
           {label ?? UI.readAloud[locale]}
         </button>
       </div>
@@ -62,17 +63,17 @@ export default function ReadAloud({
     <div className={styles.wrap}>
       {status === 'speaking' ? (
         <button type="button" className="btn" onClick={pause}>
-          <span aria-hidden="true">❚❚</span>
+          <Icon name="pause" />
           {UI.readAloudPause[locale]}
         </button>
       ) : (
         <button type="button" className="btn" onClick={resume}>
-          <span aria-hidden="true">▶</span>
+          <Icon name="play" />
           {UI.readAloudResume[locale]}
         </button>
       )}
       <button type="button" className="btn btn-quiet" onClick={stop}>
-        <span aria-hidden="true">■</span>
+        <Icon name="stop" />
         {UI.readAloudStop[locale]}
       </button>
     </div>

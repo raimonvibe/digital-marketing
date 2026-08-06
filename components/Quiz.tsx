@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { UI } from '@/content/ui';
 import type { Locale, QuizItem } from '@/lib/types';
 import { answerKey, readValue, useStoredValue, useStoreVersion } from '@/lib/store';
+import Icon from './Icon';
 import styles from './Quiz.module.css';
 
 /* --- Stored answer shapes ------------------------------------------------ */
@@ -72,7 +73,7 @@ function Verdict({
   return (
     <div className={styles.verdict} data-correct={correct || undefined} role="status">
       <p className={styles.verdictHead}>
-        <span aria-hidden="true">{correct ? '✓' : '✕'}</span>{' '}
+        <Icon name={correct ? 'check' : 'cross'} size={12} />{' '}
         {correct ? UI.quizCorrect[locale] : UI.quizIncorrect[locale]}
       </p>
       <p className={styles.verdictBody}>{explain}</p>
@@ -336,7 +337,7 @@ function OrderQ({
                 disabled={position === 0}
                 aria-label={`${UI.quizMoveUp[locale]}: ${item.steps[stepIndex]}`}
               >
-                ▲
+                <Icon name="caret-up" size={11} />
               </button>
               <button
                 type="button"
@@ -345,7 +346,7 @@ function OrderQ({
                 disabled={position === order.length - 1}
                 aria-label={`${UI.quizMoveDown[locale]}: ${item.steps[stepIndex]}`}
               >
-                ▼
+                <Icon name="caret-down" size={11} />
               </button>
             </span>
           </li>
@@ -389,7 +390,7 @@ function ReflectQ({
       />
       {state.text.trim().length > 0 && (
         <p className={styles.saved}>
-          <span aria-hidden="true">✓</span> {UI.quizSaved[locale]}
+          <Icon name="check" size={11} /> {UI.quizSaved[locale]}
         </p>
       )}
     </>

@@ -18,6 +18,7 @@ import {
   useSpeech,
   voicesFor,
 } from '@/lib/speech';
+import Icon from './Icon';
 import styles from './SpeechDock.module.css';
 
 const ME = 'dock';
@@ -121,7 +122,7 @@ export default function SpeechDock({ locale }: { locale: Locale }) {
               onClick={() => setOpen(false)}
               aria-label={UI.speechDockClose[locale]}
             >
-              ✕
+              <Icon name="close" />
             </button>
           </div>
 
@@ -131,7 +132,7 @@ export default function SpeechDock({ locale }: { locale: Locale }) {
               className="btn btn-primary"
               onClick={() => speakContainer('main', ME, locale)}
             >
-              <span aria-hidden="true">▶</span>
+              <Icon name="play" />
               {UI.speechReadPage[locale]}
             </button>
             <button
@@ -141,7 +142,7 @@ export default function SpeechDock({ locale }: { locale: Locale }) {
               disabled={!hasSelection}
               title={hasSelection ? undefined : UI.speechSelectionHint[locale]}
             >
-              <span aria-hidden="true">❝</span>
+              <Icon name="quote" />
               {UI.speechReadSelection[locale]}
             </button>
           </div>
@@ -154,17 +155,17 @@ export default function SpeechDock({ locale }: { locale: Locale }) {
             <div className={styles.actions}>
               {status === 'speaking' ? (
                 <button type="button" className="btn" onClick={pause}>
-                  <span aria-hidden="true">❚❚</span>
+                  <Icon name="pause" />
                   {UI.readAloudPause[locale]}
                 </button>
               ) : (
                 <button type="button" className="btn" onClick={resume}>
-                  <span aria-hidden="true">▶</span>
+                  <Icon name="play" />
                   {UI.readAloudResume[locale]}
                 </button>
               )}
               <button type="button" className="btn btn-quiet" onClick={stop}>
-                <span aria-hidden="true">■</span>
+                <Icon name="stop" />
                 {UI.readAloudStop[locale]}
               </button>
             </div>
@@ -245,9 +246,11 @@ export default function SpeechDock({ locale }: { locale: Locale }) {
            otherwise it collides with the panel's own close button. */
         aria-label={UI.speechDockTitle[locale]}
       >
-        <span aria-hidden="true" className={styles.fabIcon}>
-          {playing && mine ? '❚❚' : '🕪'}
-        </span>
+        <Icon
+          name={playing && mine ? 'pause' : 'speaker'}
+          className={styles.fabIcon}
+          size={22}
+        />
       </button>
     </div>
   );

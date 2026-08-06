@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Icon from '@/components/Icon';
 import { UI } from '@/content/ui';
 import { MODULES } from '@/lib/course';
 import { coerceLocale, href } from '@/lib/i18n';
@@ -108,7 +109,7 @@ export default async function ToolsPage({
                 rel="noopener noreferrer"
               >
                 {UI.visitTool[locale]} {tool.name}
-                <span aria-hidden="true">↗</span>
+                <Icon name="external" size={14} />
                 <span className="visually-hidden">
                   ({UI.opensInNewTab[locale]})
                 </span>

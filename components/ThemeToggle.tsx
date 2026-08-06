@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useStoredValue, useHydrated } from '@/lib/store';
 import { UI } from '@/content/ui';
 import type { Locale } from '@/lib/types';
+import Icon from './Icon';
 
 type Theme = 'light' | 'dark';
 
@@ -34,7 +35,7 @@ export default function ThemeToggle({ locale }: { locale: Locale }) {
       title={label}
       aria-label={label}
     >
-      <span aria-hidden="true">{current === 'dark' ? '☾' : '☀'}</span>
+      <Icon name={current === 'dark' ? 'moon' : 'sun'} size={16} />
     </button>
   );
 }
