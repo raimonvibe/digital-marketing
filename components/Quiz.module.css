@@ -16,6 +16,7 @@
   grid-template-columns: 2.2rem minmax(0, 1fr);
   align-items: baseline;
   gap: var(--s-2);
+  min-width: 0;
 }
 
 .qNum {
@@ -27,6 +28,7 @@
 .prompt {
   font-weight: 550;
   line-height: 1.4;
+  min-width: 0;
 }
 
 .hint {
@@ -127,6 +129,11 @@
 }
 
 @media (max-width: 34rem) {
+  .qHead {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-1);
+  }
+
   .matchRow {
     grid-template-columns: minmax(0, 1fr);
     gap: var(--s-1);
