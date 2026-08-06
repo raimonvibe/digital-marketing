@@ -57,6 +57,11 @@ export const UI = {
   toolLessons: { en: 'Tools in this module', nl: 'Tools in deze module' },
   mission: { en: 'Your mission', nl: 'Jouw missie' },
   whyThisMatters: { en: 'Why this matters', nl: 'Waarom dit ertoe doet' },
+  /* The button folds the explanation on screen; it never withholds it from a
+     screen reader, so its name says "on screen" rather than claiming the text
+     is collapsed away. */
+  whyShowOnScreen: { en: 'show on screen', nl: 'toon op het scherm' },
+  whyHideFromScreen: { en: 'hide from screen', nl: 'verberg van het scherm' },
   startTask: { en: 'Start the task', nl: 'Start de taak' },
   opensInNewTab: { en: 'opens in a new tab', nl: 'opent in een nieuw tabblad' },
   assignment: { en: 'Assignment', nl: 'Opdracht' },

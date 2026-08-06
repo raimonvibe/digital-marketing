@@ -84,13 +84,29 @@ export default function ToolCard({
         {/* Not a <details>: a closed one is kept out of the accessibility tree,
             so a screen reader working down the page skipped this entirely. The
             body is always rendered and only folded away from the eye, which
-            leaves it in the reading order on every platform. */}
+            leaves it in the reading order on every platform.
+
+            Which is also why there is no aria-expanded here. That attribute
+            claims the content is not available until you activate the control,
+            and it always is — announcing "collapsed" over a passage the screen
+            reader is about to read would be a straight contradiction. What the
+            button really toggles is whether the text is on screen, so that is
+            what its name says. The visible label stays inside the accessible
+            name, per label-in-name.
+
+            The qualifier goes in aria-label rather than a visually-hidden span
+            because the read-aloud reads textContent, and it should say "why
+            this matters", not "why this matters show on screen". */}
         <div className={styles.why} ref={whyRef}>
           <button
             type="button"
             className={styles.whySummary}
-            aria-expanded={whyOpen}
             aria-controls={whyId}
+            aria-label={`${UI.whyThisMatters[locale]} — ${
+              whyOpen
+                ? UI.whyHideFromScreen[locale]
+                : UI.whyShowOnScreen[locale]
+            }`}
             onClick={() => setWhyOpen((v) => !v)}
             /* Reads too, so the panel unfolding mid-playback is announced
                rather than just appearing. */
