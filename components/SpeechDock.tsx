@@ -13,6 +13,7 @@ import {
   setVoice,
   speakContainer,
   speakText,
+  speechErrorMessage,
   stop,
   supported,
   useSpeech,
@@ -45,7 +46,8 @@ function installHint(locale: Locale): string {
  * a voice from another language when the page language has none installed.
  */
 export default function SpeechDock({ locale }: { locale: Locale }) {
-  const { status, owner, voiceCount, voiceEpoch } = useSpeech();
+  const { status, owner, voiceCount, voiceEpoch, error, errorOwner } =
+    useSpeech();
   const [open, setOpen] = useState(false);
   const [canSpeak, setCanSpeak] = useState(false);
   const [hasSelection, setHasSelection] = useState(false);
@@ -66,9 +68,13 @@ export default function SpeechDock({ locale }: { locale: Locale }) {
    * did not reach it at all.
    *
    * So the last real selection is remembered rather than re-read on demand.
-   * Forgetting it is driven by pointerdown outside the dock, which is the user
-   * moving on to something else; a pointerdown on the dock is them reaching
-   * for exactly this button, and must not count.
+   *
+   * Forgetting it hangs off selectstart rather than any tap, because on
+   * Android the selection toolbar overlaps page controls and is not reliably
+   * dismissed by tapping them, so a tap aimed at this dock can land on the
+   * article behind it — and a stray tap must not throw the selection away.
+   * selectstart fires on long-press there, and on mousedown into text on the
+   * desktop, so it still catches the user genuinely starting somewhere new.
    */
   useEffect(() => {
     const remember = () => {
@@ -79,16 +85,17 @@ export default function SpeechDock({ locale }: { locale: Locale }) {
       setHasSelection(true);
     };
     const forget = (event: Event) => {
+      /* Selecting inside the dock — the hint, a voice name — is not moving on. */
       if (dockRef.current?.contains(event.target as Node)) return;
       selectionRef.current = '';
       setHasSelection(false);
     };
     document.addEventListener('selectionchange', remember);
-    document.addEventListener('pointerdown', forget, true);
+    document.addEventListener('selectstart', forget, true);
     remember();
     return () => {
       document.removeEventListener('selectionchange', remember);
-      document.removeEventListener('pointerdown', forget, true);
+      document.removeEventListener('selectstart', forget, true);
     };
   }, []);
 
@@ -184,6 +191,14 @@ export default function SpeechDock({ locale }: { locale: Locale }) {
 
           {!hasSelection && (
             <p className={styles.hint}>{UI.speechSelectionHint[locale]}</p>
+          )}
+
+          {/* Sits directly under the buttons, and directly above the voice
+              picker that usually fixes it. */}
+          {error && errorOwner === ME && (
+            <p className={styles.warn} role="status">
+              {speechErrorMessage(error, locale)}
+            </p>
           )}
 
           {playing && (
