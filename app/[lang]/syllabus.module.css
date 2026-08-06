@@ -1,0 +1,143 @@
+.page {
+  padding-block: var(--s-8) var(--s-9);
+}
+
+.page > * + * {
+  margin-top: var(--s-8);
+}
+
+/* --- Masthead ------------------------------------------------------------ */
+
+.masthead {
+  border-top: 8px solid var(--ink);
+  padding-top: var(--s-4);
+}
+
+.title {
+  margin-top: var(--s-2);
+  max-width: 16ch;
+}
+
+/* Standfirst deliberately overruns the title's measure and sits offset to the
+   right, so the block reads as typeset rather than stacked and centred. */
+.standfirst {
+  margin-top: var(--s-5);
+  margin-left: clamp(0rem, 8vw, 9rem);
+  max-width: 44ch;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--t-lg);
+  line-height: 1.35;
+  color: var(--ink-soft);
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-7);
+  margin: var(--s-6) 0 0;
+  border-top: var(--rule-hair) solid var(--rule);
+  padding-top: var(--s-4);
+}
+
+.stats dd {
+  margin: var(--s-1) 0 0;
+  font-family: var(--font-display);
+  font-size: var(--t-xl);
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* --- Columns ------------------------------------------------------------- */
+
+.column > * + * {
+  margin-top: var(--s-8);
+}
+
+.shelfWrap {
+  margin-top: var(--s-5);
+}
+
+.h2 {
+  font-style: italic;
+  border-bottom: var(--rule-thick) solid var(--ink);
+  padding-bottom: var(--s-2);
+}
+
+.sectionLede {
+  margin-top: var(--s-3);
+  font-size: var(--t-sm);
+  color: var(--ink-soft);
+  max-width: 52ch;
+}
+
+.objectives {
+  scroll-margin-top: 7rem;
+}
+
+.objectivesList {
+  margin: var(--s-4) 0 0;
+  padding-left: 1.4rem;
+  max-width: 54ch;
+  display: grid;
+  gap: var(--s-2);
+  line-height: 1.5;
+}
+
+.objectivesList li::marker {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  color: var(--accent);
+}
+
+/* --- How it works -------------------------------------------------------- */
+
+.howGrid {
+  margin-top: var(--s-5);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: var(--s-6) var(--s-7);
+}
+
+.howItem {
+  border-top: var(--rule-hair) solid var(--rule-strong);
+  padding-top: var(--s-3);
+}
+
+.howNum {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  color: var(--accent);
+}
+
+.howTitle {
+  margin-top: var(--s-2);
+  font-size: var(--t-md);
+  line-height: 1.25;
+}
+
+.howText {
+  margin-top: var(--s-2);
+  font-size: var(--t-sm);
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+/* --- Module table -------------------------------------------------------- */
+
+.tableWrap {
+  margin-top: var(--s-5);
+}
+
+@media (max-width: 40rem) {
+  .masthead {
+    border-top-width: 5px;
+  }
+  .standfirst {
+    margin-left: 0;
+    font-size: var(--t-md);
+  }
+  .stats {
+    gap: var(--s-5);
+  }
+}

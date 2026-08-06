@@ -1,0 +1,11 @@
+.wrap {
+  display: flex;
+  gap: var(--s-2);
+  flex-wrap: wrap;
+}
+
+.unsupported {
+  font-size: var(--t-xs);
+  font-style: italic;
+  color: var(--ink-faint);
+}

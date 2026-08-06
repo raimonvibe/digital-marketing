@@ -1,0 +1,147 @@
+/* --- Badge shelf --------------------------------------------------------- */
+
+.shelf {
+  border-top: var(--rule-hair) solid var(--rule);
+  padding-top: var(--s-4);
+}
+
+.seals {
+  list-style: none;
+  margin: var(--s-3) 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+.seal {
+  display: grid;
+  place-items: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 50%;
+  border: var(--rule-hair) dashed var(--rule-strong);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.02em;
+  color: var(--ink-faint);
+  background: var(--paper);
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease),
+    transform var(--dur) var(--ease);
+}
+
+.seal[data-earned] {
+  border-style: solid;
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--paper);
+  transform: rotate(-4deg);
+}
+
+:root[data-theme='dark'] .seal[data-earned] {
+  color: var(--paper-sunk);
+}
+
+.empty {
+  margin-top: var(--s-3);
+  font-size: var(--t-sm);
+  font-style: italic;
+  color: var(--ink-faint);
+}
+
+/* --- Module table -------------------------------------------------------- */
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: var(--rule-thick) solid var(--ink);
+}
+
+.row {
+  border-bottom: var(--rule-hair) solid var(--rule);
+}
+
+.link {
+  display: grid;
+  grid-template-columns: 3.4rem minmax(0, 1fr) auto;
+  gap: var(--s-4);
+  align-items: start;
+  padding: var(--s-4) var(--s-2);
+  text-decoration: none;
+  color: inherit;
+  transition: background var(--dur) var(--ease);
+}
+
+.link:hover {
+  background: var(--accent-wash);
+  text-decoration: none;
+}
+
+.num {
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+  color: var(--accent);
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-2);
+  padding-top: 0.2rem;
+}
+
+.tick {
+  color: var(--ok);
+  font-size: 0.8rem;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  min-width: 0;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--t-lg);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.012em;
+}
+
+.link:hover .title {
+  color: var(--accent-ink);
+}
+
+.abstract {
+  font-size: var(--t-sm);
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 46ch;
+}
+
+.tools {
+  display: flex;
+  gap: var(--s-1);
+  flex-wrap: wrap;
+  margin-top: var(--s-1);
+}
+
+.time {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.06em;
+  color: var(--ink-faint);
+  white-space: nowrap;
+  padding-top: 0.35rem;
+}
+
+@media (max-width: 40rem) {
+  .link {
+    grid-template-columns: 2.6rem minmax(0, 1fr);
+    gap: var(--s-3);
+  }
+  .time {
+    grid-column: 2;
+    padding-top: 0;
+  }
+}

@@ -1,0 +1,215 @@
+.article > * + * {
+  margin-top: var(--s-7);
+}
+
+/* Title block hangs off a thick accent rule and is deliberately left-set —
+   no centred hero. */
+.hero {
+  border-top: 6px solid var(--accent);
+  padding-top: var(--s-4);
+  max-width: 30ch;
+}
+
+.heroOf {
+  color: var(--rule-strong);
+}
+
+.heroTitle {
+  margin-top: var(--s-2);
+}
+
+.heroSub {
+  margin-top: var(--s-4);
+  max-width: 46ch;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--t-lg);
+  line-height: 1.35;
+  color: var(--ink-soft);
+}
+
+/* --- Margin column ------------------------------------------------------- */
+
+.meta {
+  margin: 0;
+}
+
+.meta dt {
+  margin-bottom: var(--s-1);
+}
+
+.meta dd {
+  margin: 0 0 var(--s-4);
+  color: var(--ink-soft);
+  font-size: var(--t-sm);
+}
+
+.toolList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s-2);
+}
+
+.toolList li {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  line-height: 1.25;
+}
+
+.noTools {
+  font-style: italic;
+}
+
+.toc {
+  border-top: var(--rule-hair) solid var(--rule);
+  padding-top: var(--s-3);
+}
+
+.toc ul {
+  list-style: none;
+  margin: var(--s-2) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s-1);
+}
+
+.toc a {
+  font-size: var(--t-sm);
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+
+.toc a:hover {
+  color: var(--accent-ink);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+/* --- Body ---------------------------------------------------------------- */
+
+.body > * + * {
+  margin-top: var(--s-8);
+}
+
+.objectives {
+  border: var(--rule-hair) solid var(--rule);
+  border-left: 6px solid var(--accent);
+  background: var(--accent-wash);
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  padding: var(--s-5);
+  max-width: 52ch;
+}
+
+.objectivesLede {
+  margin-top: var(--s-2);
+  font-size: var(--t-sm);
+  color: var(--ink-soft);
+}
+
+.objectivesList {
+  margin: var(--s-3) 0 0;
+  padding-left: 1.3rem;
+  display: grid;
+  gap: var(--s-2);
+  font-family: var(--font-display);
+  font-size: var(--t-md);
+  line-height: 1.4;
+}
+
+.objectivesList::marker {
+  color: var(--accent);
+}
+
+.section {
+  scroll-margin-top: 7rem;
+}
+
+.sectionHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-4);
+  flex-wrap: wrap;
+  border-bottom: var(--rule-thick) solid var(--ink);
+  padding-bottom: var(--s-2);
+  margin-bottom: var(--s-5);
+}
+
+.sectionHead h2 {
+  font-style: italic;
+}
+
+.cards {
+  display: grid;
+  gap: var(--s-6);
+}
+
+/* --- Assignment ---------------------------------------------------------- */
+
+.assignment {
+  border: var(--rule-hair) solid var(--rule-strong);
+  border-radius: var(--radius-lg);
+  padding: var(--s-5);
+  background: var(--paper-raised);
+  max-width: 52ch;
+}
+
+.assignment > * + * {
+  margin-top: var(--s-4);
+}
+
+.assignmentTitle {
+  font-style: italic;
+}
+
+.deliverable {
+  border-top: var(--rule-hair) solid var(--rule);
+  padding-top: var(--s-3);
+  font-size: var(--t-sm);
+  color: var(--ink-soft);
+}
+
+/* --- Recap --------------------------------------------------------------- */
+
+.recapLede {
+  font-size: var(--t-sm);
+  color: var(--ink-faint);
+}
+
+.recapList {
+  margin: var(--s-4) 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--s-3);
+  counter-reset: recap;
+}
+
+.recapList li {
+  counter-increment: recap;
+  display: grid;
+  grid-template-columns: 1.8rem minmax(0, 1fr);
+  gap: var(--s-2);
+  line-height: 1.55;
+}
+
+.recapList li::before {
+  content: counter(recap, decimal-leading-zero);
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  color: var(--accent);
+  padding-top: 0.35em;
+}
+
+@media (max-width: 40rem) {
+  .hero {
+    border-top-width: 4px;
+  }
+  .objectives,
+  .assignment {
+    padding: var(--s-4);
+  }
+}

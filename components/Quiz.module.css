@@ -1,0 +1,315 @@
+.quiz > * + * {
+  margin-top: var(--s-6);
+}
+
+.q {
+  border-top: var(--rule-hair) solid var(--rule);
+  padding-top: var(--s-4);
+}
+
+.q > * + * {
+  margin-top: var(--s-3);
+}
+
+.qHead {
+  display: grid;
+  grid-template-columns: 2.2rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--s-2);
+}
+
+.qNum {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  color: var(--accent);
+}
+
+.prompt {
+  font-weight: 550;
+  line-height: 1.4;
+}
+
+.hint {
+  font-size: var(--t-sm);
+  color: var(--ink-faint);
+  padding-left: 2.2rem;
+}
+
+.options {
+  list-style: none;
+  padding: 0 0 0 2.2rem;
+  margin: 0;
+  display: grid;
+  gap: var(--s-2);
+}
+
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-3);
+  padding: 0.55rem 0.75rem;
+  border: var(--rule-hair) solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--paper-raised);
+  cursor: pointer;
+  font-size: var(--t-sm);
+  line-height: 1.45;
+  transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+
+.option:hover {
+  border-color: var(--accent-edge);
+  background: var(--accent-wash);
+}
+
+.option input {
+  margin-top: 0.28em;
+  accent-color: var(--accent);
+  flex: none;
+}
+
+.option[data-picked] {
+  border-color: var(--accent-edge);
+  background: var(--accent-wash);
+}
+
+.option[data-right] {
+  border-color: var(--ok);
+  background: color-mix(in oklab, var(--ok) 12%, var(--paper));
+}
+
+.option[data-wrong] {
+  border-color: var(--err);
+  background: color-mix(in oklab, var(--err) 12%, var(--paper));
+}
+
+/* --- Match --- */
+
+.matchList {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 2.2rem;
+  display: grid;
+  gap: var(--s-2);
+}
+
+.matchRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--s-3);
+  align-items: center;
+  font-size: var(--t-sm);
+}
+
+.matchLeft {
+  line-height: 1.4;
+  padding-right: var(--s-2);
+  border-right: var(--rule-hair) solid var(--rule);
+}
+
+.select {
+  width: 100%;
+  padding: 0.45rem 0.5rem;
+  border: var(--rule-hair) solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--paper-raised);
+  font-size: var(--t-sm);
+}
+
+.select[data-right] {
+  border-color: var(--ok);
+  background: color-mix(in oklab, var(--ok) 12%, var(--paper));
+}
+
+.select[data-wrong] {
+  border-color: var(--err);
+  background: color-mix(in oklab, var(--err) 12%, var(--paper));
+}
+
+@media (max-width: 34rem) {
+  .matchRow {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-1);
+  }
+  .matchLeft {
+    border-right: 0;
+    font-weight: 550;
+  }
+  .options,
+  .matchList,
+  .orderList,
+  .hint,
+  .actions,
+  .verdict {
+    padding-left: 0;
+    margin-left: 0;
+  }
+}
+
+/* --- Order --- */
+
+.orderList {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 2.2rem;
+  display: grid;
+  gap: var(--s-2);
+  counter-reset: step;
+}
+
+.orderRow {
+  display: grid;
+  grid-template-columns: 1.6rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--s-3);
+  padding: 0.45rem 0.6rem;
+  border: var(--rule-hair) solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--paper-raised);
+  font-size: var(--t-sm);
+}
+
+.orderRow[data-right] {
+  border-color: var(--ok);
+  background: color-mix(in oklab, var(--ok) 10%, var(--paper));
+}
+
+.orderRow[data-wrong] {
+  border-color: var(--err);
+  background: color-mix(in oklab, var(--err) 10%, var(--paper));
+}
+
+.orderNum {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  color: var(--ink-faint);
+}
+
+.orderText {
+  line-height: 1.4;
+}
+
+.orderBtns {
+  display: flex;
+  gap: 2px;
+}
+
+.iconBtn {
+  border: var(--rule-hair) solid var(--rule);
+  background: var(--paper);
+  border-radius: var(--radius);
+  width: 1.75rem;
+  height: 1.75rem;
+  font-size: 0.6rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--ink-soft);
+}
+
+.iconBtn:hover:not(:disabled) {
+  background: var(--accent-wash);
+  border-color: var(--accent-edge);
+}
+
+.iconBtn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* --- Reflection --- */
+
+.textarea {
+  width: 100%;
+  margin-left: 2.2rem;
+  max-width: calc(100% - 2.2rem);
+  padding: var(--s-3);
+  border: var(--rule-hair) solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--paper-raised);
+  font-family: var(--font-body);
+  font-size: var(--t-sm);
+  line-height: 1.55;
+  resize: vertical;
+}
+
+.textarea:focus {
+  border-color: var(--accent);
+}
+
+.saved {
+  margin-left: 2.2rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* --- Verdict + actions --- */
+
+.actions {
+  padding-left: 2.2rem;
+}
+
+.verdict {
+  margin-left: 2.2rem;
+  border-left: var(--rule-thick) solid var(--err);
+  background: color-mix(in oklab, var(--err) 8%, var(--paper));
+  padding: var(--s-3) var(--s-4);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.verdict[data-correct] {
+  border-left-color: var(--ok);
+  background: color-mix(in oklab, var(--ok) 8%, var(--paper));
+}
+
+.verdictHead {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--err);
+}
+
+.verdict[data-correct] .verdictHead {
+  color: var(--ok);
+}
+
+.verdictBody {
+  margin-top: var(--s-1);
+  font-size: var(--t-sm);
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+/* --- Score --- */
+
+.scoreIdle {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  border-top: var(--rule-hair) solid var(--rule);
+  padding-top: var(--s-3);
+}
+
+.score {
+  border-top: var(--rule-thick) solid var(--accent);
+  padding-top: var(--s-3);
+}
+
+.scoreNum {
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+  letter-spacing: 0.06em;
+  color: var(--ink);
+}
+
+.cheer {
+  font-family: var(--font-display);
+  font-size: var(--t-md);
+  color: var(--accent-ink);
+  margin-top: var(--s-1);
+}

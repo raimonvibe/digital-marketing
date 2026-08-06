@@ -1,0 +1,144 @@
+.card {
+  background: var(--paper-raised);
+  border: var(--rule-hair) solid var(--rule);
+  border-left: var(--rule-thick) solid var(--accent);
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  box-shadow: var(--shadow-page);
+  overflow: hidden;
+  scroll-margin-top: 7rem;
+  transition: box-shadow var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-lift);
+}
+
+.card[data-done] {
+  border-left-color: var(--ok);
+}
+
+.head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--s-4);
+  padding: var(--s-4) var(--s-5);
+  background: var(--accent-wash);
+  border-bottom: var(--rule-hair) solid var(--rule);
+}
+
+.headText {
+  min-width: 0;
+}
+
+.title {
+  font-size: var(--t-lg);
+  margin-top: 2px;
+}
+
+.doneToggle {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.doneToggle input {
+  accent-color: var(--accent);
+  width: 1rem;
+  height: 1rem;
+}
+
+.card[data-done] .doneLabel {
+  color: var(--ok);
+}
+
+.body {
+  padding: var(--s-5);
+}
+
+.body > * + * {
+  margin-top: var(--s-5);
+}
+
+/* "Why this matters" stays folded away so the main flow reads clean. */
+.why {
+  border: var(--rule-hair) dashed var(--rule-strong);
+  border-radius: var(--radius);
+  padding: var(--s-2) var(--s-3);
+}
+
+.whySummary {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  cursor: pointer;
+  font-size: var(--t-sm);
+  font-weight: 550;
+  color: var(--ink-soft);
+  list-style: none;
+}
+
+.whySummary::-webkit-details-marker {
+  display: none;
+}
+
+.info {
+  display: grid;
+  place-items: center;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+  border: var(--rule-hair) solid var(--accent);
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-style: italic;
+  flex: none;
+}
+
+.whyBody {
+  margin-top: var(--s-2);
+  font-size: var(--t-sm);
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.mission {
+  border-top: var(--rule-thick) solid var(--accent);
+  background: var(--accent-wash);
+  border-radius: var(--radius);
+  padding: var(--s-4);
+}
+
+.missionText {
+  margin: var(--s-2) 0 var(--s-4);
+  font-family: var(--font-display);
+  font-size: var(--t-md);
+  line-height: 1.45;
+}
+
+.check {
+  border-top: var(--rule-hair) solid var(--rule);
+  padding-top: var(--s-2);
+}
+
+@media (max-width: 40rem) {
+  .head {
+    grid-template-columns: auto minmax(0, 1fr);
+    row-gap: var(--s-3);
+  }
+  .doneToggle {
+    grid-column: 1 / -1;
+  }
+  .body,
+  .head {
+    padding-inline: var(--s-4);
+  }
+}
