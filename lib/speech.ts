@@ -274,6 +274,27 @@ function clearHighlight() {
   for (const c of chunks) c.el?.classList.remove('speaking');
 }
 
+/**
+ * Text folded away inside a closed `<details>` — "why this matters" on every
+ * tool card — is read out, because textContent does not care about disclosure
+ * state, but nothing appears on screen while it plays: the highlight lands on
+ * an unpainted element and scrollIntoView has nothing to scroll to. A real
+ * screen reader has the opposite problem and skips the passage entirely, since
+ * a closed disclosure is kept out of the accessibility tree by design.
+ *
+ * Opening the disclosure as playback reaches it settles both: the words appear
+ * as they are spoken, and the accessibility tree matches what is being said.
+ * It stays open afterwards — having heard it, you can read it back.
+ */
+function reveal(el: HTMLElement) {
+  let node: Element | null = el.closest('details');
+  while (node) {
+    const disclosure = node as HTMLDetailsElement;
+    if (!disclosure.open) disclosure.open = true;
+    node = disclosure.parentElement?.closest('details') ?? null;
+  }
+}
+
 function stopKeepAlive() {
   if (keepAlive) {
     clearInterval(keepAlive);
@@ -327,6 +348,7 @@ function speakFrom(start: number, myRun: number) {
 
   clearHighlight();
   if (chunk.el) {
+    reveal(chunk.el);
     chunk.el.classList.add('speaking');
     chunk.el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   }

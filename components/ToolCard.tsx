@@ -66,7 +66,9 @@ export default function ToolCard({
         <Prose blocks={lesson.what} />
 
         <details className={styles.why}>
-          <summary className={styles.whySummary}>
+          {/* The summary reads too, so the panel opening mid-playback is
+              announced rather than just appearing. */}
+          <summary className={styles.whySummary} data-speech>
             <span className={styles.info}>
               <Icon name="info" size={13} />
             </span>
