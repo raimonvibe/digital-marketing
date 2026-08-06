@@ -41,8 +41,12 @@ export default function ToolCard({
           loading="lazy"
         />
         <div className={styles.headText}>
-          <p className="eyebrow eyebrow-accent">{tool.name}</p>
-          <h3 className={styles.title}>{lesson.title}</h3>
+          <p className="eyebrow eyebrow-accent" data-speech>
+            {tool.name}
+          </p>
+          <h3 className={styles.title} data-speech>
+            {lesson.title}
+          </h3>
         </div>
         <label className={styles.doneToggle}>
           <input
@@ -68,7 +72,9 @@ export default function ToolCard({
             </span>
             {UI.whyThisMatters[locale]}
           </summary>
-          <p className={styles.whyBody}>{lesson.why}</p>
+          <p className={styles.whyBody} data-speech>
+            {lesson.why}
+          </p>
         </details>
 
         <section className={styles.mission} aria-label={UI.mission[locale]}>

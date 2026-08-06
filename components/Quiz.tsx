@@ -72,11 +72,13 @@ function Verdict({
 }) {
   return (
     <div className={styles.verdict} data-correct={correct || undefined} role="status">
-      <p className={styles.verdictHead}>
+      <p className={styles.verdictHead} data-speech>
         <Icon name={correct ? 'check' : 'cross'} size={12} />{' '}
         {correct ? UI.quizCorrect[locale] : UI.quizIncorrect[locale]}
       </p>
-      <p className={styles.verdictBody}>{explain}</p>
+      <p className={styles.verdictBody} data-speech>
+        {explain}
+      </p>
     </div>
   );
 }
@@ -98,7 +100,9 @@ export function QuizQuestion({
     <div className={styles.q}>
       <div className={styles.qHead}>
         {label && <span className={styles.qNum}>{label}</span>}
-        <p className={styles.prompt}>{item.prompt}</p>
+        <p className={styles.prompt} data-speech>
+          {item.prompt}
+        </p>
       </div>
       <QuizBody item={item} locale={locale} />
     </div>
@@ -152,7 +156,7 @@ function ChoiceQ({
                 checked={state.picked === i}
                 onChange={() => setState({ picked: i, checked: false })}
               />
-              <span>{opt}</span>
+              <span data-speech>{opt}</span>
             </label>
           </li>
         ))}
@@ -193,7 +197,9 @@ function MultiQ({
 
   return (
     <>
-      <p className={styles.hint}>{UI.quizSelectAll[locale]}</p>
+      <p className={styles.hint} data-speech>
+        {UI.quizSelectAll[locale]}
+      </p>
       <ul className={styles.options}>
         {item.options.map((opt, i) => (
           <li key={i}>
@@ -212,7 +218,7 @@ function MultiQ({
                 checked={state.picked.includes(i)}
                 onChange={() => toggle(i)}
               />
-              <span>{opt}</span>
+              <span data-speech>{opt}</span>
             </label>
           </li>
         ))}
@@ -250,11 +256,15 @@ function MatchQ({
 
   return (
     <>
-      <p className={styles.hint}>{UI.quizMatchHint[locale]}</p>
+      <p className={styles.hint} data-speech>
+        {UI.quizMatchHint[locale]}
+      </p>
       <ul className={styles.matchList}>
         {item.lefts.map((left, i) => (
           <li key={i} className={styles.matchRow}>
-            <span className={styles.matchLeft}>{left}</span>
+            <span className={styles.matchLeft} data-speech>
+              {left}
+            </span>
             <select
               className={styles.select}
               value={picked[i] ?? ''}
@@ -318,7 +328,9 @@ function OrderQ({
 
   return (
     <>
-      <p className={styles.hint}>{UI.quizOrderHint[locale]}</p>
+      <p className={styles.hint} data-speech>
+        {UI.quizOrderHint[locale]}
+      </p>
       <ol className={styles.orderList}>
         {order.map((stepIndex, position) => (
           <li
@@ -328,7 +340,9 @@ function OrderQ({
             data-wrong={state.checked && stepIndex !== position ? '' : undefined}
           >
             <span className={styles.orderNum}>{position + 1}</span>
-            <span className={styles.orderText}>{item.steps[stepIndex]}</span>
+            <span className={styles.orderText} data-speech>
+              {item.steps[stepIndex]}
+            </span>
             <span className={styles.orderBtns}>
               <button
                 type="button"
@@ -379,7 +393,11 @@ function ReflectQ({
 
   return (
     <>
-      {item.hint && <p className={styles.hint}>{item.hint}</p>}
+      {item.hint && (
+        <p className={styles.hint} data-speech>
+          {item.hint}
+        </p>
+      )}
       <textarea
         className={styles.textarea}
         rows={4}

@@ -67,8 +67,12 @@ export default async function ModulePage({
             {UI.moduleOf[locale]} {MODULES.length}
           </span>
         </p>
-        <h1 className={styles.heroTitle}>{c.title}</h1>
-        <p className={`lede ${styles.heroSub}`}>{c.subtitle}</p>
+        <h1 className={styles.heroTitle} data-speech>
+          {c.title}
+        </h1>
+        <p className={`lede ${styles.heroSub}`} data-speech>
+          {c.subtitle}
+        </p>
       </header>
 
       <div className="spread">
@@ -122,10 +126,14 @@ export default async function ModulePage({
             <p className="eyebrow eyebrow-accent" id="objectives-h">
               {UI.objectives[locale]}
             </p>
-            <p className={styles.objectivesLede}>{UI.objectivesLede[locale]}</p>
+            <p className={styles.objectivesLede} data-speech>
+              {UI.objectivesLede[locale]}
+            </p>
             <ol className={styles.objectivesList}>
               {c.objectives.map((o, i) => (
-                <li key={i}>{o}</li>
+                <li key={i} data-speech>
+                  {o}
+                </li>
               ))}
             </ol>
           </section>
@@ -164,14 +172,16 @@ export default async function ModulePage({
                 <h2>{UI.assignment[locale]}</h2>
               </div>
               <div className={`${styles.assignment} measure`}>
-                <h3 className={styles.assignmentTitle}>{c.assignment.title}</h3>
+                <h3 className={styles.assignmentTitle} data-speech>
+                  {c.assignment.title}
+                </h3>
                 <Prose blocks={c.assignment.brief} />
                 <p className={styles.deliverable}>
-                  <span className="eyebrow eyebrow-accent">
+                  <span className="eyebrow eyebrow-accent" data-speech>
                     {UI.deliverable[locale]}
                   </span>
                   <br />
-                  {c.assignment.deliverable}
+                  <span data-speech>{c.assignment.deliverable}</span>
                 </p>
               </div>
             </section>
@@ -189,10 +199,14 @@ export default async function ModulePage({
               <h2>{UI.recap[locale]}</h2>
             </div>
             <div className="measure">
-              <p className={styles.recapLede}>{UI.recapLede[locale]}</p>
+              <p className={styles.recapLede} data-speech>
+                {UI.recapLede[locale]}
+              </p>
               <ul className={styles.recapList}>
                 {c.recap.map((r, i) => (
-                  <li key={i}>{r}</li>
+                  <li key={i} data-speech>
+                    {r}
+                  </li>
                 ))}
               </ul>
             </div>

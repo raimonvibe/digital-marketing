@@ -40,7 +40,9 @@ export default function Prose({ blocks }: { blocks: Block[] }) {
           case 'note':
             return (
               <aside key={i} className={styles.note}>
-                <p className="eyebrow eyebrow-accent">{block.label}</p>
+                <p className="eyebrow eyebrow-accent" data-speech>
+                  {block.label}
+                </p>
                 <p data-speech>{block.text}</p>
               </aside>
             );

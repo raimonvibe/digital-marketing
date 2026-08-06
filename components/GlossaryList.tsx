@@ -61,9 +61,11 @@ export default function GlossaryList({
         <dl className={styles.list}>
           {shown.map((row) => (
             <div key={row.id} className={styles.entry} id={row.id}>
-              <dt className={styles.term}>{row.term}</dt>
+              <dt className={styles.term} data-speech>
+                {row.term}
+              </dt>
               <dd className={styles.def}>
-                <p>{row.definition}</p>
+                <p data-speech>{row.definition}</p>
                 <p className={styles.source}>
                   {UI.introducedIn[locale]}{' '}
                   <Link href={href(locale, `modules/${row.moduleSlug}`)}>

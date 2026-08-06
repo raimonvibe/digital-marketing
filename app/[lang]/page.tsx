@@ -47,8 +47,12 @@ export default async function SyllabusPage({
           running past it — editorial, not a centred hero. */}
       <header className={styles.masthead}>
         <p className="eyebrow">{UI.courseKicker[locale]}</p>
-        <h1 className={styles.title}>{c.title}</h1>
-        <p className={styles.standfirst}>{c.subtitle}</p>
+        <h1 className={styles.title} data-speech>
+          {c.title}
+        </h1>
+        <p className={styles.standfirst} data-speech>
+          {c.subtitle}
+        </p>
         <dl className={styles.stats}>
           <div>
             <dt className="eyebrow">{UI.navModules[locale]}</dt>
@@ -82,12 +86,14 @@ export default async function SyllabusPage({
 
           <section className={styles.objectives}>
             <h2 className={styles.h2}>{UI.objectives[locale]}</h2>
-            <p className={styles.sectionLede}>
+            <p className={styles.sectionLede} data-speech>
               {UI.objectivesLedeCourse[locale]}
             </p>
             <ol className={styles.objectivesList}>
               {c.objectives.map((o, i) => (
-                <li key={i}>{o}</li>
+                <li key={i} data-speech>
+                  {o}
+                </li>
               ))}
             </ol>
           </section>
@@ -102,16 +108,24 @@ export default async function SyllabusPage({
                   <p className={styles.howNum}>
                     {String(i + 1).padStart(2, '0')}
                   </p>
-                  <h3 className={styles.howTitle}>{item.title}</h3>
-                  <p className={styles.howText}>{item.text}</p>
+                  <h3 className={styles.howTitle} data-speech>
+                    {item.title}
+                  </h3>
+                  <p className={styles.howText} data-speech>
+                    {item.text}
+                  </p>
                 </div>
               ))}
             </div>
           </section>
 
           <section>
-            <h2 className={styles.h2}>{c.modulesHeading}</h2>
-            <p className={styles.sectionLede}>{c.modulesLede}</p>
+            <h2 className={styles.h2} data-speech>
+              {c.modulesHeading}
+            </h2>
+            <p className={styles.sectionLede} data-speech>
+              {c.modulesLede}
+            </p>
             <div className={styles.tableWrap}>
               <SyllabusModules rows={moduleRows} locale={locale} />
             </div>

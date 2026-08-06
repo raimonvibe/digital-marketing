@@ -78,12 +78,16 @@ export default async function ToolsPage({
                   loading="lazy"
                 />
                 <div>
-                  <h2 className={styles.name}>{tool.name}</h2>
+                  <h2 className={styles.name} data-speech>
+                    {tool.name}
+                  </h2>
                   <p className={styles.domain}>{tool.domain}</p>
                 </div>
               </div>
 
-              <p className={styles.blurb}>{tool.blurb[locale]}</p>
+              <p className={styles.blurb} data-speech>
+                {tool.blurb[locale]}
+              </p>
 
               <p className={styles.source}>
                 {source ? (
