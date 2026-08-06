@@ -7,6 +7,7 @@ import {
   pause,
   resume,
   speakContainer,
+  speechErrorMessage,
   stop,
   supported,
   useSpeech,
@@ -28,10 +29,12 @@ export default function ReadAloud({
   locale: Locale;
   label?: string;
 }) {
-  const { status, owner } = useSpeech();
+  const { status, owner, error, errorOwner } = useSpeech();
   const [canSpeak, setCanSpeak] = useState(true);
   const me = `inline:${targetId}`;
   const mine = owner === me;
+  /* Only the button that was pressed explains itself. */
+  const failed = error && errorOwner === me ? error : null;
 
   useEffect(() => {
     setCanSpeak(supported());
@@ -46,7 +49,7 @@ export default function ReadAloud({
 
   if (!mine || status === 'idle') {
     return (
-      <div className={styles.wrap}>
+      <div className={failed ? `${styles.wrap} ${styles.wrapFailed}` : styles.wrap}>
         <button
           type="button"
           className="btn"
@@ -55,6 +58,11 @@ export default function ReadAloud({
           <Icon name="play" />
           {label ?? UI.readAloud[locale]}
         </button>
+        {failed && (
+          <p className={styles.failed} role="status">
+            {speechErrorMessage(failed, locale)}
+          </p>
+        )}
       </div>
     );
   }

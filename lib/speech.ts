@@ -1,6 +1,7 @@
 'use client';
 
 import { useSyncExternalStore } from 'react';
+import { UI } from '@/content/ui';
 import { SPEECH_LANG } from './i18n';
 import { readValue, useStoreVersion, writeValue } from './store';
 import type { Locale } from './types';
@@ -36,12 +37,23 @@ interface Chunk {
   el?: HTMLElement;
 }
 
+/**
+ * Why the last attempt produced no sound. Engines fail quietly — an Android
+ * phone with no Dutch voice data raises language-unavailable and simply says
+ * nothing — so the reason has to be carried back to the UI rather than
+ * swallowed, or the button looks broken.
+ */
+export type SpeechError = 'no-voice' | 'blocked' | 'failed';
+
 interface Snapshot {
   status: SpeechStatus;
   owner: string | null;
   voiceCount: number;
   /** Bumped when the voice list changes, so pickers re-render. */
   voiceEpoch: number;
+  error: SpeechError | null;
+  /** Who asked for the speech that failed, so only that control complains. */
+  errorOwner: string | null;
 }
 
 let status: SpeechStatus = 'idle';
@@ -54,12 +66,28 @@ let voices: SpeechSynthesisVoice[] = [];
 let voiceEpoch = 0;
 let activeLocale: Locale = 'en';
 let keepAlive: ReturnType<typeof setInterval> | null = null;
+let error: SpeechError | null = null;
+let errorOwner: string | null = null;
 
 const listeners = new Set<() => void>();
-let snapshot: Snapshot = { status, owner, voiceCount: 0, voiceEpoch: 0 };
+let snapshot: Snapshot = {
+  status,
+  owner,
+  voiceCount: 0,
+  voiceEpoch: 0,
+  error: null,
+  errorOwner: null,
+};
 
 function emit() {
-  snapshot = { status, owner, voiceCount: voices.length, voiceEpoch };
+  snapshot = {
+    status,
+    owner,
+    voiceCount: voices.length,
+    voiceEpoch,
+    error,
+    errorOwner,
+  };
   for (const l of listeners) l();
 }
 
@@ -325,6 +353,30 @@ function startKeepAlive() {
   }, 9000);
 }
 
+/**
+ * The spec's error names, reduced to the three things a reader can act on:
+ * install a voice, allow the page to make sound, or try again.
+ */
+function classify(name: string): SpeechError {
+  if (name === 'language-unavailable' || name === 'voice-unavailable') {
+    return 'no-voice';
+  }
+  if (name === 'not-allowed') return 'blocked';
+  return 'failed';
+}
+
+/** The wording for each, so both the dock and the inline buttons agree. */
+export function speechErrorMessage(reason: SpeechError, locale: Locale) {
+  switch (reason) {
+    case 'no-voice':
+      return UI.speechErrorNoVoice[locale];
+    case 'blocked':
+      return UI.speechErrorBlocked[locale];
+    case 'failed':
+      return UI.speechErrorFailed[locale];
+  }
+}
+
 export function stop() {
   run += 1;
   stopKeepAlive();
@@ -377,6 +429,9 @@ function speakFrom(start: number, myRun: number) {
     if (myRun !== run) return;
     /* A cancel() raises an error event on some engines; that is not a failure. */
     if (event.error === 'canceled' || event.error === 'interrupted') return;
+    /* Both set before stop(), which clears owner and is what emits. */
+    error = classify(event.error);
+    errorOwner = owner;
     stop();
   };
 
@@ -390,6 +445,9 @@ function speakFrom(start: number, myRun: number) {
 function begin(next: Chunk[], nextOwner: string, locale: Locale) {
   if (!supported() || next.length === 0) return;
   stop();
+  /* A fresh attempt clears the last complaint. */
+  error = null;
+  errorOwner = null;
   chunks = next;
   owner = nextOwner;
   activeLocale = locale;
@@ -470,6 +528,8 @@ const serverSnapshot: Snapshot = {
   owner: null,
   voiceCount: 0,
   voiceEpoch: 0,
+  error: null,
+  errorOwner: null,
 };
 
 export function useSpeech() {

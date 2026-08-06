@@ -9,3 +9,24 @@
   font-style: italic;
   color: var(--ink-faint);
 }
+
+/* The wrap is a flex item in the section head, sized to its button. A message
+   left inside that would wrap to the button's width, so claim the whole row —
+   and stack, because flex-basis alone does not survive the max-width below:
+   the clamped size fits beside the button and never breaks to a new line. */
+.wrapFailed {
+  flex-basis: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.failed {
+  max-width: 46ch;
+  font-size: var(--t-xs);
+  line-height: 1.5;
+  color: var(--ink-soft);
+  border-left: var(--rule-thick) solid var(--warn);
+  background: color-mix(in oklab, var(--warn) 10%, var(--paper));
+  padding: var(--s-2) var(--s-3);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}

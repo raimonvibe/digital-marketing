@@ -200,6 +200,21 @@ export const UI = {
     en: 'No English voice is installed on this device, so pages will be read by whichever voice you pick below.',
     nl: 'Er staat geen Engelse stem op dit apparaat, dus pagina’s worden voorgelezen door de stem die je hieronder kiest.',
   },
+  /* Shown when an attempt to speak came back with an error instead of sound.
+     Engines fail silently, so without these the button looks broken. */
+  speechErrorNoVoice: {
+    en: 'This device has no speech voice it can use for this text. Add one under “Add more voices” below, or pick a different voice.',
+    nl: 'Dit apparaat heeft geen spraakstem die het voor deze tekst kan gebruiken. Voeg er een toe onder “Meer stemmen toevoegen” hieronder, of kies een andere stem.',
+  },
+  speechErrorBlocked: {
+    en: 'The browser blocked the speech. Tap the button again.',
+    nl: 'De browser blokkeerde het voorlezen. Tik de knop nog een keer aan.',
+  },
+  speechErrorFailed: {
+    en: 'The speech engine stopped unexpectedly. Try again, or pick another voice below.',
+    nl: 'De spraakmodule stopte onverwacht. Probeer het opnieuw, of kies hieronder een andere stem.',
+  },
+
   speechInstallTitle: {
     en: 'Add more voices',
     nl: 'Meer stemmen toevoegen',
