@@ -1,0 +1,25 @@
+/* Shared chrome for the secondary pages — glossary and the tool index. */
+
+.page > * + * {
+  margin-top: var(--s-7);
+}
+
+.head {
+  border-top: 6px solid var(--accent);
+  padding-top: var(--s-4);
+}
+
+.title {
+  margin-top: var(--s-2);
+  font-size: var(--t-2xl);
+}
+
+.lede {
+  margin-top: var(--s-3);
+  max-width: 52ch;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--t-md);
+  line-height: 1.45;
+  color: var(--ink-soft);
+}

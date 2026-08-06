@@ -7,15 +7,17 @@
 .hero {
   border-top: 6px solid var(--accent);
   padding-top: var(--s-4);
-  max-width: 30ch;
 }
 
 .heroOf {
   color: var(--rule-strong);
 }
 
+/* Title gets a short measure so it breaks into a stacked block; the standfirst
+   is allowed to run past it, which is what makes the header read as typeset. */
 .heroTitle {
   margin-top: var(--s-2);
+  max-width: 18ch;
 }
 
 .heroSub {

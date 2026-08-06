@@ -52,7 +52,7 @@ export default function ToolCard({
             }
           />
           <span className={styles.doneLabel}>
-            {done ? UI.markedComplete[locale] : UI.markComplete[locale]}
+            {done ? UI.lessonDone[locale] : UI.markLessonDone[locale]}
           </span>
         </label>
       </header>

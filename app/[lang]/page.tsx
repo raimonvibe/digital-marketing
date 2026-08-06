@@ -82,7 +82,9 @@ export default async function SyllabusPage({
 
           <section className={styles.objectives}>
             <h2 className={styles.h2}>{UI.objectives[locale]}</h2>
-            <p className={styles.sectionLede}>{UI.objectivesLede[locale]}</p>
+            <p className={styles.sectionLede}>
+              {UI.objectivesLedeCourse[locale]}
+            </p>
             <ol className={styles.objectivesList}>
               {c.objectives.map((o, i) => (
                 <li key={i}>{o}</li>

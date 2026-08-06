@@ -4,11 +4,19 @@ import '../globals.css';
 
 import CourseShell from '@/components/CourseShell';
 import type { NavModule } from '@/components/ModuleNav';
+import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
+import SpeechDock from '@/components/SpeechDock';
 import StoreBoot from '@/components/StoreBoot';
 import { UI } from '@/content/ui';
 import { allLessonIds, MODULES } from '@/lib/course';
-import { coerceLocale } from '@/lib/i18n';
+import { coerceLocale, href } from '@/lib/i18n';
+import {
+  SHARE_CARD,
+  SHARE_CARD_HEIGHT,
+  SHARE_CARD_WIDTH,
+  SITE_URL,
+} from '@/lib/site';
 import { LOCALES, type Locale } from '@/lib/types';
 
 /* Two contrasting families on purpose: a serif with opinions for display, a
@@ -44,12 +52,56 @@ export async function generateMetadata({
   params: Promise<{ lang: string }>;
 }): Promise<Metadata> {
   const locale = coerceLocale((await params).lang);
+  const title = UI.siteTitle[locale];
+  const description = UI.footerNote[locale];
+
   return {
-    title: {
-      default: UI.siteTitle[locale],
-      template: `%s · ${UI.siteTitle[locale]}`,
+    metadataBase: new URL(SITE_URL),
+    title: { default: title, template: `%s · ${title}` },
+    description,
+    applicationName: title,
+    manifest: '/manifest.webmanifest',
+    /* Square artwork for the tab and the home screen; the wide card below is
+       what a messaging app shows when the link is pasted. */
+    icons: {
+      icon: '/favicon.ico',
+      shortcut: '/favicon.ico',
+      apple: '/apple-touch-icon.png',
     },
-    description: UI.footerNote[locale],
+    appleWebApp: {
+      capable: true,
+      title: 'DM&E Course',
+      statusBarStyle: 'default',
+    },
+    alternates: {
+      canonical: href(locale),
+      languages: Object.fromEntries(LOCALES.map((l) => [l, href(l)])),
+    },
+    openGraph: {
+      type: 'website',
+      siteName: title,
+      title,
+      description,
+      url: href(locale),
+      locale: locale === 'nl' ? 'nl_NL' : 'en_GB',
+      images: [
+        {
+          url: SHARE_CARD,
+          width: SHARE_CARD_WIDTH,
+          height: SHARE_CARD_HEIGHT,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      /* The wide card is 1280×720, so the large variant renders properly
+         rather than being shrunk into a thumbnail. */
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [SHARE_CARD],
+      creator: '@raimonvibe',
+    },
   };
 }
 
@@ -98,11 +150,8 @@ export default async function LangLayout({
         <CourseShell locale={locale} modules={navModules(locale)}>
           {children}
         </CourseShell>
-        <footer className="site-footer">
-          <div className="shell">
-            <p>{UI.footerNote[locale]}</p>
-          </div>
-        </footer>
+        <SiteFooter locale={locale} />
+        <SpeechDock locale={locale} />
       </body>
     </html>
   );

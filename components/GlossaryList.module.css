@@ -1,0 +1,70 @@
+.search {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  max-width: 20rem;
+  margin-bottom: var(--s-6);
+}
+
+.input {
+  padding: 0.5rem 0.7rem;
+  border: var(--rule-hair) solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--paper-raised);
+  font-size: var(--t-sm);
+}
+
+.input:focus {
+  border-color: var(--accent);
+}
+
+.empty {
+  font-style: italic;
+  color: var(--ink-faint);
+}
+
+.list {
+  margin: 0;
+  border-top: var(--rule-thick) solid var(--ink);
+}
+
+/* Definition-list layout: term hangs in the margin, definition in the measure. */
+.entry {
+  display: grid;
+  grid-template-columns: 14rem minmax(0, 1fr);
+  gap: var(--s-5);
+  padding: var(--s-4) 0;
+  border-bottom: var(--rule-hair) solid var(--rule);
+  scroll-margin-top: 7rem;
+}
+
+.term {
+  font-family: var(--font-display);
+  font-size: var(--t-md);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.def {
+  margin: 0;
+  max-width: 52ch;
+}
+
+.def p {
+  line-height: 1.6;
+}
+
+.source {
+  margin-top: var(--s-2);
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.04em;
+  color: var(--ink-faint);
+}
+
+@media (max-width: 48rem) {
+  .entry {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-2);
+  }
+}

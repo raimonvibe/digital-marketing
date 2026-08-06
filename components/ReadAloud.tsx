@@ -1,18 +1,22 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { UI } from '@/content/ui';
-import { SPEECH_LANG } from '@/lib/i18n';
 import type { Locale } from '@/lib/types';
+import {
+  pause,
+  resume,
+  speakContainer,
+  stop,
+  supported,
+  useSpeech,
+} from '@/lib/speech';
 import styles from './ReadAloud.module.css';
 
-type Status = 'idle' | 'speaking' | 'paused';
-
 /**
- * Read-aloud on the browser's own SpeechSynthesis — no service, no key, no
- * network. Reads one `[data-speech]` chunk per utterance so the paragraph
- * being spoken can be highlighted, which `onboundary` alone can't give us
- * reliably across browsers.
+ * The inline control that sits beside a section heading. It drives the shared
+ * engine in lib/speech, so starting playback here stops whatever the dock was
+ * reading rather than talking over it.
  */
 export default function ReadAloud({
   targetId,
@@ -23,142 +27,54 @@ export default function ReadAloud({
   locale: Locale;
   label?: string;
 }) {
-  const [status, setStatus] = useState<Status>('idle');
-  const [supported, setSupported] = useState(true);
-  const chunksRef = useRef<HTMLElement[]>([]);
-  const indexRef = useRef(0);
-  /* Guards against the `onend` of a cancelled utterance advancing the queue. */
-  const runRef = useRef(0);
+  const { status, owner } = useSpeech();
+  const [canSpeak, setCanSpeak] = useState(true);
+  const me = `inline:${targetId}`;
+  const mine = owner === me;
 
   useEffect(() => {
-    setSupported(typeof window !== 'undefined' && 'speechSynthesis' in window);
+    setCanSpeak(supported());
   }, []);
-
-  const clearHighlight = useCallback(() => {
-    for (const el of chunksRef.current) el.classList.remove('speaking');
-  }, []);
-
-  const stop = useCallback(() => {
-    runRef.current += 1;
-    window.speechSynthesis.cancel();
-    clearHighlight();
-    indexRef.current = 0;
-    setStatus('idle');
-  }, [clearHighlight]);
 
   /* Leaving the page mid-sentence should not leave the browser talking. */
-  useEffect(() => {
-    return () => {
-      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
-    };
-  }, []);
+  useEffect(() => stop, []);
 
-  const speakFrom = useCallback(
-    (start: number, run: number) => {
-      const chunks = chunksRef.current;
-      if (start >= chunks.length) {
-        clearHighlight();
-        indexRef.current = 0;
-        setStatus('idle');
-        return;
-      }
-
-      const el = chunks[start];
-      const text = (el.textContent || '').trim();
-      if (!text) {
-        speakFrom(start + 1, run);
-        return;
-      }
-
-      clearHighlight();
-      el.classList.add('speaking');
-      indexRef.current = start;
-
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = SPEECH_LANG[locale];
-      utterance.rate = 0.98;
-
-      const voice = window.speechSynthesis
-        .getVoices()
-        .find((v) => v.lang.replace('_', '-').startsWith(locale));
-      if (voice) utterance.voice = voice;
-
-      utterance.onend = () => {
-        if (runRef.current !== run) return;
-        speakFrom(start + 1, run);
-      };
-      utterance.onerror = () => {
-        if (runRef.current !== run) return;
-        clearHighlight();
-        setStatus('idle');
-      };
-
-      window.speechSynthesis.speak(utterance);
-    },
-    [clearHighlight, locale],
-  );
-
-  function start() {
-    const root = document.getElementById(targetId);
-    if (!root) return;
-    chunksRef.current = Array.from(
-      root.querySelectorAll<HTMLElement>('[data-speech]'),
-    );
-    if (chunksRef.current.length === 0) return;
-
-    window.speechSynthesis.cancel();
-    runRef.current += 1;
-    setStatus('speaking');
-    speakFrom(0, runRef.current);
+  if (!canSpeak) {
+    return <p className={styles.unsupported}>{UI.readAloudUnsupported[locale]}</p>;
   }
 
-  function pause() {
-    window.speechSynthesis.pause();
-    setStatus('paused');
-  }
-
-  function resume() {
-    window.speechSynthesis.resume();
-    setStatus('speaking');
-  }
-
-  if (!supported) {
+  if (!mine || status === 'idle') {
     return (
-      <p className={styles.unsupported}>{UI.readAloudUnsupported[locale]}</p>
+      <div className={styles.wrap}>
+        <button
+          type="button"
+          className="btn"
+          onClick={() => speakContainer(targetId, me, locale)}
+        >
+          <span aria-hidden="true">▶</span>
+          {label ?? UI.readAloud[locale]}
+        </button>
+      </div>
     );
   }
 
   return (
     <div className={styles.wrap}>
-      {status === 'idle' && (
-        <button type="button" className="btn" onClick={start}>
-          <span aria-hidden="true">▶</span>
-          {label ?? UI.readAloud[locale]}
-        </button>
-      )}
-
-      {status === 'speaking' && (
+      {status === 'speaking' ? (
         <button type="button" className="btn" onClick={pause}>
           <span aria-hidden="true">❚❚</span>
           {UI.readAloudPause[locale]}
         </button>
-      )}
-
-      {status === 'paused' && (
+      ) : (
         <button type="button" className="btn" onClick={resume}>
           <span aria-hidden="true">▶</span>
           {UI.readAloudResume[locale]}
         </button>
       )}
-
-      {status !== 'idle' && (
-        <button type="button" className="btn btn-quiet" onClick={stop}>
-          <span aria-hidden="true">■</span>
-          {UI.readAloudStop[locale]}
-        </button>
-      )}
+      <button type="button" className="btn btn-quiet" onClick={stop}>
+        <span aria-hidden="true">■</span>
+        {UI.readAloudStop[locale]}
+      </button>
     </div>
   );
 }
