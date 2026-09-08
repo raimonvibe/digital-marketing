@@ -1,6 +1,6 @@
 # Dependabot version updates — runs every Monday.
 # https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
-# Pushing this file to main also kicks off a check shortly after it lands.
+# npm only: this repo has no .github/workflows or action.yml for github-actions to scan.
 
 version: 2
 updates:
@@ -22,16 +22,3 @@ updates:
         patterns:
           - "*"
 
-  - package-ecosystem: github-actions
-    directory: /
-    schedule:
-      interval: weekly
-      day: monday
-      time: "09:00"
-      timezone: Europe/Amsterdam
-    open-pull-requests-limit: 5
-    labels:
-      - dependencies
-    commit-message:
-      prefix: ci
-      include: scope
