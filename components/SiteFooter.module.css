@@ -1,0 +1,102 @@
+.footer {
+  border-top: var(--rule-thick) solid var(--ink);
+  background: var(--paper-sunk);
+  margin-top: var(--s-9);
+  /* Extra room at the bottom so the sticky read-aloud dock never comes to
+     rest on top of the footer links. */
+  padding-block: var(--s-7) var(--s-9);
+}
+
+/* Asymmetric again: attribution takes the measure, the icons hang right. */
+.inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--s-6) var(--s-7);
+  align-items: start;
+}
+
+.maker {
+  max-width: 40ch;
+}
+
+.madeBy {
+  font-family: var(--font-display);
+  font-size: var(--t-md);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.tagline {
+  margin-top: var(--s-2);
+  font-size: var(--t-sm);
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.social {
+  justify-self: end;
+  text-align: right;
+}
+
+.icons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--s-1);
+  margin-top: var(--s-2);
+  /* Pull the row back into line with the text above it — the 44px targets
+     carry their own padding. */
+  margin-right: -0.6rem;
+}
+
+.meta {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--s-3) var(--s-5);
+  align-items: baseline;
+  border-top: var(--rule-hair) solid var(--rule);
+  padding-top: var(--s-4);
+}
+
+.note {
+  font-size: var(--t-xs);
+  line-height: 1.6;
+  color: var(--ink-faint);
+  max-width: 62ch;
+}
+
+.links {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.04em;
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+
+.links a {
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+
+.links a:hover {
+  color: var(--accent-ink);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+@media (max-width: 46rem) {
+  .inner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .social {
+    justify-self: start;
+    text-align: left;
+  }
+  .icons {
+    justify-content: flex-start;
+    margin-right: 0;
+    margin-left: -0.6rem;
+  }
+}

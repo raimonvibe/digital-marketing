@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Digital Marketing &amp; E-commerce</title>
+    <!--
+      Every page of the course lives under /en/ or /nl/. This file only exists so
+      that the bare domain sends visitors to whichever they are more likely to
+      want; the meta refresh is the fallback for anyone without JavaScript.
+    -->
+    <meta http-equiv="refresh" content="0; url=/en/" />
+    <link rel="canonical" href="/en/" />
+    <script>
+      (function () {
+        var langs = navigator.languages || [navigator.language || 'en'];
+        var target = '/en/';
+        for (var i = 0; i < langs.length; i++) {
+          var code = String(langs[i]).slice(0, 2).toLowerCase();
+          if (code === 'nl') {
+            target = '/nl/';
+            break;
+          }
+          if (code === 'en') break;
+        }
+        window.location.replace(target);
+      })();
+    </script>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 4rem auto;
+        max-width: 32rem;
+        padding: 0 1.5rem;
+        color: #1a1915;
+        background: #faf7f0;
+      }
+      a {
+        color: #2c5aa8;
+      }
+    </style>
+  </head>
+  <body>
+    <p>
+      Redirecting to the course. If nothing happens, choose a language:
+      <a href="/en/">English</a> · <a href="/nl/">Nederlands</a>
+    </p>
+  </body>
+</html>

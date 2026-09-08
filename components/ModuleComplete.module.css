@@ -1,0 +1,82 @@
+.wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  padding: var(--s-5);
+  border: var(--rule-hair) solid var(--rule);
+  border-top: var(--rule-thick) solid var(--accent);
+  border-radius: var(--radius-lg);
+  background: var(--paper-raised);
+  box-shadow: var(--shadow-page);
+}
+
+.wrap[data-done] {
+  background: var(--accent-wash);
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+}
+
+.badgeLine {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  font-size: var(--t-sm);
+  line-height: 1.35;
+}
+
+/* Wax-seal badge: circular, accent-filled, sits like a stamp on the page. */
+.seal {
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--paper);
+  font-size: 1.1rem;
+  box-shadow: 0 0 0 3px var(--paper), 0 0 0 4px var(--accent);
+  flex: none;
+}
+
+:root[data-theme='dark'] .seal {
+  color: var(--paper-sunk);
+}
+
+.nextLink {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: right;
+  text-decoration: none;
+  color: var(--ink);
+  margin-left: auto;
+}
+
+.nextLink:hover {
+  text-decoration: none;
+}
+
+.nextTitle {
+  font-family: var(--font-display);
+  font-size: var(--t-md);
+  font-weight: 600;
+  color: var(--accent-ink);
+}
+
+.nextLink:hover .nextTitle {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+@media (max-width: 40rem) {
+  .nextLink {
+    text-align: left;
+    margin-left: 0;
+  }
+}

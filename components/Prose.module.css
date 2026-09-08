@@ -1,0 +1,16 @@
+/* Marginal aside: hangs off the accent rule rather than sitting in a grey box. */
+.note {
+  border-left: var(--rule-thick) solid var(--accent);
+  background: var(--accent-wash);
+  padding: var(--s-3) var(--s-4);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.note > p + p {
+  margin-top: var(--s-1);
+}
+
+.note p:last-child {
+  font-size: var(--t-sm);
+  color: var(--ink-soft);
+}

@@ -1,0 +1,130 @@
+.nav {
+  font-size: var(--t-sm);
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: var(--s-3) 0 0;
+  border-top: var(--rule-hair) solid var(--rule);
+}
+
+.item {
+  border-bottom: var(--rule-hair) solid var(--rule);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1.4rem minmax(0, 1fr) 1rem;
+  align-items: center;
+  gap: var(--s-1);
+}
+
+/* Current module gets an accent spine in the margin, not a filled block. */
+.rowCurrent {
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+
+.disclosure {
+  background: none;
+  border: 0;
+  padding: 0.35rem 0.2rem;
+  cursor: pointer;
+  color: var(--ink-faint);
+  line-height: 1;
+}
+
+.chevron {
+  display: inline-block;
+  font-size: 0.7rem;
+  transition: transform var(--dur) var(--ease);
+}
+
+.chevron[data-open] {
+  transform: rotate(90deg);
+}
+
+.moduleLink {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-2);
+  padding: 0.45rem 0;
+  color: var(--ink-soft);
+  text-decoration: none;
+  min-width: 0;
+}
+
+.moduleLink:hover {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.rowCurrent .moduleLink {
+  color: var(--ink);
+  font-weight: 550;
+}
+
+.num {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--accent);
+  flex: none;
+}
+
+.title {
+  line-height: 1.3;
+}
+
+.check {
+  font-size: 0.8rem;
+  color: var(--ink-faint);
+  text-align: right;
+}
+
+.check[data-done] {
+  color: var(--accent);
+}
+
+.lessons {
+  list-style: none;
+  padding: 0 0 var(--s-3) 1.4rem;
+  margin: 0;
+}
+
+.lessonLink {
+  display: flex;
+  gap: var(--s-2);
+  align-items: baseline;
+  padding: 0.22rem 0;
+  font-size: var(--t-xs);
+  line-height: 1.35;
+  color: var(--ink-faint);
+  text-decoration: none;
+}
+
+.lessonLink:hover {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.lessonCheck {
+  flex: none;
+  width: 0.8rem;
+  text-align: center;
+}
+
+.lessonCheck[data-done] {
+  color: var(--accent);
+}
+
+.noTools {
+  padding: 0 0 var(--s-3) 1.4rem;
+  font-size: var(--t-xs);
+  font-style: italic;
+  color: var(--ink-faint);
+}
+
+.reset {
+  margin-top: var(--s-4);
+  font-size: var(--t-xs);
+}
