@@ -10,7 +10,53 @@
       want; the meta refresh is the fallback for anyone without JavaScript.
     -->
     <meta http-equiv="refresh" content="0; url=/en/" />
-    <link rel="canonical" href="/en/" />
+    <link rel="canonical" href="https://digital-marketing-ten-snowy.vercel.app/en/" />
+
+    <!--
+      Link previews are repeated here rather than inherited from the /en/ page:
+      this is a plain file in public/, so Next's generateMetadata never touches
+      it, and scrapers do not follow the meta refresh above. Without these tags
+      the bare domain pastes as a naked link.
+
+      The origin has to be spelled out because Open Graph rejects relative
+      paths, which also means NEXT_PUBLIC_SITE_URL cannot reach this file — keep
+      these URLs in step with SITE_URL in lib/site.ts.
+    -->
+    <meta
+      name="description"
+      content="A personal, front-end-only course. Progress and answers are stored in this browser only — nothing is sent anywhere."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Digital Marketing &amp; E-commerce" />
+    <meta property="og:title" content="Digital Marketing &amp; E-commerce" />
+    <meta
+      property="og:description"
+      content="A personal, front-end-only course. Progress and answers are stored in this browser only — nothing is sent anywhere."
+    />
+    <meta
+      property="og:url"
+      content="https://digital-marketing-ten-snowy.vercel.app/en/"
+    />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:locale:alternate" content="nl_NL" />
+    <meta
+      property="og:image"
+      content="https://digital-marketing-ten-snowy.vercel.app/social-share2.png"
+    />
+    <meta property="og:image:width" content="1280" />
+    <meta property="og:image:height" content="720" />
+    <meta property="og:image:alt" content="Digital Marketing &amp; E-commerce" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content="@raimonvibe" />
+    <meta name="twitter:title" content="Digital Marketing &amp; E-commerce" />
+    <meta
+      name="twitter:description"
+      content="A personal, front-end-only course. Progress and answers are stored in this browser only — nothing is sent anywhere."
+    />
+    <meta
+      name="twitter:image"
+      content="https://digital-marketing-ten-snowy.vercel.app/social-share2.png"
+    />
     <script>
       (function () {
         var langs = navigator.languages || [navigator.language || 'en'];
