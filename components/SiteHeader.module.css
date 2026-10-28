@@ -139,8 +139,14 @@
     padding-top: var(--s-2);
     overflow-x: auto;
   }
+  /* On a phone the full name is the point of the header: wrap it onto a
+     second line instead of cutting it off ("Digitale Marketing & E-comme…"). */
   .brandTitle {
     font-size: var(--t-base);
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    text-wrap: balance;
   }
   .progressLabel {
     right: var(--s-4);
