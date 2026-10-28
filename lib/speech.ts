@@ -129,13 +129,80 @@ function isChromiumDesktop() {
 export const VOICE_KEY = { en: 'voice:en', nl: 'voice:nl' } as const;
 export const RATE_KEY = 'speech-rate';
 
+/**
+ * Joke and character voices the operating system ships alongside real ones.
+ * Apple's "Novelty" set (Bubbles, Junior, Zarvox, Bad News…) all report as
+ * en-US, so filtering by language does not remove them — they have to be
+ * named. The second block is the Eloquence-era character set added in recent
+ * macOS/iOS. Filtered out once, where the voices arrive, so no picker or
+ * default can reach them.
+ */
+const NOVELTY_VOICE_NAMES = new Set([
+  'albert',
+  'bad news',
+  'bahh',
+  'bells',
+  'boing',
+  'bubbles',
+  'cellos',
+  'deranged',
+  'fred',
+  'good news',
+  'hysterical',
+  'jester',
+  'junior',
+  'kathy',
+  'organ',
+  'pipe organ',
+  'princess',
+  'ralph',
+  'superstar',
+  'trinoids',
+  'whisper',
+  'wobble',
+  'zarvox',
+  // character voices
+  'eddy',
+  'flo',
+  'grandma',
+  'grandpa',
+  'reed',
+  'rocko',
+  'sandy',
+  'shelley',
+]);
+
+/** "Grandma (Deutsch (Deutschland))" → "grandma"; "Microsoft David - English" → "microsoft david" */
+function baseVoiceName(name: string): string {
+  return name.split('(')[0].split(' - ')[0].trim().toLowerCase();
+}
+
+/**
+ * "com.apple.speech.synthesis.voice.Bubbles" → "bubbles".
+ *
+ * Safari on iPhone, iPad and Mac can show a voice's name in the device's own
+ * language, so the name alone lets a translated "Bubbles" through. The
+ * voiceURI keeps Apple's English identifier whatever the device language.
+ */
+function voiceURIName(uri: string): string {
+  return (uri ?? '').split('.').pop()?.trim().toLowerCase() ?? '';
+}
+
+export function isNoveltyVoice(voice: SpeechSynthesisVoice): boolean {
+  if (/eloquence/i.test(voice.name) || /eloquence/i.test(voice.voiceURI ?? '')) return true;
+  return (
+    NOVELTY_VOICE_NAMES.has(baseVoiceName(voice.name)) ||
+    NOVELTY_VOICE_NAMES.has(voiceURIName(voice.voiceURI))
+  );
+}
+
 function signature(list: SpeechSynthesisVoice[]) {
   return list.map((v) => v.voiceURI).join('|');
 }
 
 function loadVoices() {
   if (!supported()) return;
-  const next = window.speechSynthesis.getVoices();
+  const next = window.speechSynthesis.getVoices().filter((v) => !isNoveltyVoice(v));
   if (signature(next) === signature(voices)) return;
   voices = next;
   voiceEpoch += 1;
